@@ -1,6 +1,7 @@
 from flask import render_template, redirect, session, flash, url_for, request
 from .models import User
 from app import db
+from werkzeug.security import generate_password_hash
 
 def register_routes(app):
     @app.route('/')
@@ -16,8 +17,15 @@ def register_routes(app):
             email = request.form['email']
             password = request.form['password']
 
-            # Save user to the database
-            user = User(email=email, password=password)
+            # Check if the email already exists in the database
+            existing_user = User.query.filter_by(email=email).first()
+            if existing_user:
+                flash('Email is already registered. Please log in.', 'danger')
+                return redirect(url_for('login'))
+
+            # Save new user to the database
+            hashed_password = generate_password_hash(password)  # Hash the password for security
+            user = User(email=email, password=hashed_password)
             db.session.add(user)
             db.session.commit()
 

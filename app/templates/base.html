@@ -24,15 +24,18 @@
                         {% if session.get('email') %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.blueprint == 'habits' %}active{% endif %}" 
-                               href="{{ url_for('index') }}">Habits</a>
+                               href="{{ url_for('index') }}">Habits</a> 
+                               <!-- must be updated to aa.index -->
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if request.blueprint == 'todos' %}active{% endif %}" 
-                               href="{{ url_for('index') }}">To-Do List</a>
+                               href="{{ url_for('index') }}">To-Do List</a> 
+                               <!-- must be updated to aa.index -->
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {% if request.blueprint == 'notes' %}active{% endif %}" 
-                               href="{{ url_for('index') }}">Notes</a>
+                               href="{{ url_for('index') }}">Notes</a> 
+                               <!-- must be updated to aa.index -->
                         </li>
                         <li class="nav-item">
                             <form action="{{ url_for('logout') }}" method="POST" style="display: inline;">
