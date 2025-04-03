@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Habits</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Create New Habit</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('habits.create') }}" method="post">
+                <div class="form-group">
+                    <label for="name">Habit Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Create Habit</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>My Habits</h2>
+        </div>
+        <div class="card-body">
+            {% if habits %}
+                <div class="habits-list">
+                    {% for habit in habits %}
+                        <div class="habit-item">
+                            <div class="habit-name">{{ habit.name }}</div>
+                            <div class="habit-actions">
+                                <form action="{{ url_for('habits.complete', habit_id=habit.id) }}" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-success btn-sm" {% if habit.completed_today %}disabled{% endif %}>
+                                        {% if habit.completed_today %}Completed Today{% else %}Mark Complete{% endif %}
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>You haven't created any habits yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ url_for('habits.calendar') }}" class="btn btn-outline-primary">View Calendar</a>
+    </div>
+</div>
+{% endblock %}
