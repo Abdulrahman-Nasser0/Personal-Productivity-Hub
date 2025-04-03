@@ -1,12 +1,54 @@
-from flask import render_template, redirect, url_for
+from flask import render_template, redirect, session, flash, url_for, request
+from .models import User
+from app import db
 
 def register_routes(app):
     @app.route('/')
     def index():
+        
         #Main page 
-        return redirect(url_for('habits.index'))
+        # return redirect(url_for('habits.index'))
+        return render_template("home.html", email=session.get("email"))
     
+    @app.route('/signup', methods=['GET', 'POST'])
+    def signup():
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
+
+            # Save user to the database
+            user = User(email=email, password=password)
+            db.session.add(user)
+            db.session.commit()
+
+            flash('Account created successfully. Please log in.', 'success')
+            return redirect(url_for('login'))
+
+        return render_template('signup.html')
     
+    @app.route('/login', methods=['GET', 'POST'])
+    def login():
+        if request.method == 'POST':
+            email = request.form['email']
+            password = request.form['password']
+
+            # Query user from the database
+            user = User.query.filter_by(email=email).first()
+            if user and user.password == password:
+                session['email'] = user.email
+                flash('Logged in successfully.', 'success')
+                return redirect(url_for('index'))
+            else:
+                flash('Invalid email or password.', 'danger')
+
+        return render_template('login.html')
+
+    @app.route('/logout', methods=['POST'])
+    def logout():
+        session.clear()
+        flash('Logged out successfully.', 'success')
+        return redirect(url_for('index'))
+
     # For errors
     @app.errorhandler(404)
     def page_not_found(e):
