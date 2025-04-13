@@ -13,6 +13,9 @@ def register_routes(app):
     
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
+        if session.get('email') != None:
+            return redirect(url_for('index'))
+            
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
@@ -24,8 +27,7 @@ def register_routes(app):
                 return redirect(url_for('login'))
 
             # Save new user to the database
-            hashed_password = generate_password_hash(password)  # Hash the password for security
-            user = User(email=email, password=hashed_password)
+            user = User(email=email, password=password)
             db.session.add(user)
             db.session.commit()
 
@@ -36,6 +38,9 @@ def register_routes(app):
     
     @app.route('/login', methods=['GET', 'POST'])
     def login():
+        if session.get('email') != None:
+            return redirect(url_for('index'))
+            
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
