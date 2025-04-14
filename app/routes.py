@@ -2,20 +2,20 @@ from flask import render_template, redirect, session, flash, url_for, request
 from .models import User
 from app import db
 from werkzeug.security import generate_password_hash
+from datetime import datetime, timedelta
+from app.models import Habit, Completion
+
 
 def register_routes(app):
     @app.route('/')
     def index():
-        
-        #Main page 
-        # return redirect(url_for('habits.index'))
         return render_template("home.html", email=session.get("email"))
     
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
         if session.get('email') != None:
             return redirect(url_for('index'))
-            
+
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']

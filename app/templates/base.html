@@ -24,7 +24,7 @@
                         {% if session.get('email') %}
                         <li class="nav-item">
                             <a class="nav-link {% if request.blueprint == 'habits' %}active{% endif %}" 
-                               href="{{ url_for('index') }}">Habits</a> 
+                               href="{{ url_for('habits.index') }}">Habits</a> 
                                <!-- must be updated to aa.index -->
                         </li>
                         <li class="nav-item">
