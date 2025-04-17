@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Habit Calendar</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Habit Completion History</h2>
+        </div>
+        <div class="card-body">
+            {% if habits %}
+                <div class="calendar-container">
+                    <table class="table table-bordered calendar-table">
+                        <thead>
+                            <tr>
+                                <th>Habit</th>
+                                {% for day in days %}
+                                    <th>{{ day.strftime('%m/%d') }}</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for habit in habits %}
+                                <tr>
+                                    <td>{{ habit.name }}</td>
+                                    {% for day in days %}
+                                        <td class="text-center">
+                                            {% if day.strftime('%Y-%m-%d') in habit.completion_dates %}
+                                                <span class="badge bg-success animate__animated animate__fadeIn">✓</span>
+                                            {% else %}
+                                                <span class="badge bg-light text-dark">-</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endfor %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>You haven't created any habits yet.</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="mt-4">
+        <a href="{{ url_for('habits.index') }}" class="btn btn-outline-primary">Back to Habits</a>
+    </div>
+</div>
+{% endblock %}

@@ -58,4 +58,21 @@ def complete(habit_id):
 
 @habits_bp.route('/calendar')
 def calendar():
+    """Display a calendar of habit completion history"""
+    habits = Habit.query.all()
+    
+    # Generate last 7 days for the calendar
+    today = datetime.utcnow().date()
+    days = [(today - timedelta(days=i)) for i in range(6, -1, -1)]
+    
+    # Get completion dates for each habit
+    for habit in habits:
+        completions = Completion.query.filter(
+            Completion.habit_id == habit.id,
+            Completion.completion_date >= days[0],
+            Completion.completion_date <= days[-1]
+        ).all()
+        
+        habit.completion_dates = [c.completion_date.strftime('%Y-%m-%d') for c in completions]
+    
     return render_template('habits/calendar.html', habits=habits, days=days)
