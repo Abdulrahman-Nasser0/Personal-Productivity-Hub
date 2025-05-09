@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>To-Do List</h1>
+    
+    <div class="card mb-4">
+        <div class="card-header">
+            <h2>Create New Task</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ url_for('todos.create') }}" method="post">
+                <div class="form-group">
+                    <label for="title">Task Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <button type="submit" class="btn btn-primary mt-3">Create Task</button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header">
+            <h2>My Tasks</h2>
+        </div>
+        <div class="card-body">
+            {% if tasks %}
+                <div class="tasks-list">
+                    {% for task in tasks %}
+                        <div class="task-item animate__animated animate__fadeIn">
+                            <div class="form-check">
+                                <form action="{{ url_for('todos.complete', task_id=task.id) }}" method="post" class="d-inline">
+                                    <input class="form-check-input" type="checkbox" id="task-{{ task.id }}" 
+                                           {% if task.completed %}checked{% endif %} onChange="this.form.submit()">
+                                    <label class="form-check-label {% if task.completed %}text-decoration-line-through{% endif %}" 
+                                           for="task-{{ task.id }}">
+                                        {{ task.title }}
+                                    </label>
+                                </form>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>You haven't created any tasks yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

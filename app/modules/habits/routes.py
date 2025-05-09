@@ -1,19 +1,26 @@
-
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
 from app import db
-from app.models import Habit, Completion
+from app.models import Habit, Completion, User
 from datetime import datetime, timedelta
 
 habits_bp = Blueprint('habits', __name__, url_prefix='/habits')
 
 @habits_bp.route('/')
 def index():
-    # Display all habits and a form to create a new habit
-    habits = Habit.query.all()
+    # Display habits for the logged-in user
+    user_email = session.get('email')
+    if user_email:
+        user = User.query.filter_by(email=user_email).first()
+        if user:
+            habits = Habit.query.filter_by(user_id=user.id).all()
+        else:
+            habits = []  # No user found
+    else:
+        habits = []  # No email in session
     
     # Check if each habit is completed today
+    today = datetime.utcnow().date()
     for habit in habits:
-        today = datetime.utcnow().date()
         completion = Completion.query.filter_by(
             habit_id=habit.id, 
             completion_date=today
@@ -26,10 +33,18 @@ def index():
 def create():
     # Create a new habit
     name = request.form.get('name')
-    if name:
-        habit = Habit(name=name)
-        db.session.add(habit)
-        db.session.commit()
+    user_email = session.get('email')  # Get the logged-in user's email
+    if name and user_email:
+        user = User.query.filter_by(email=user_email).first()
+        if user:
+            habit = Habit(name=name, user_id=user.id)  # Link habit to user
+            db.session.add(habit)
+            db.session.commit()
+            flash('Habit created successfully!', 'success')
+        else:
+            flash('User not found. Please log in again.', 'danger')
+    else:
+        flash('Invalid input. Please try again.', 'danger')
     return redirect(url_for('habits.index'))
 
 @habits_bp.route('/complete/<int:habit_id>', methods=['POST'])
@@ -50,11 +65,6 @@ def complete(habit_id):
         db.session.commit()
     
     return redirect(url_for('habits.index'))
-
-
-
-
-
 
 @habits_bp.route('/calendar')
 def calendar():
