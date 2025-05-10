@@ -1,8 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate  # Import Flask-Migrate
 import os
 
 db = SQLAlchemy()
+migrate = Migrate()  # Initialize Flask-Migrate
 
 def create_app():
     app = Flask(__name__)
@@ -11,15 +13,14 @@ def create_app():
     app.config['SECRET_KEY'] = 'xyz' 
    
     db.init_app(app)
+    migrate.init_app(app, db)  
 
     # Register blueprints
     from app.modules.habits import habits_bp
-    # from app.modules.todos import todos_bp
-    # from app.modules.notes import notes_bp
+    from app.modules.todos import todos_bp
     
     app.register_blueprint(habits_bp)
-    # app.register_blueprint(todos_bp)
-    # app.register_blueprint(notes_bp)
+    app.register_blueprint(todos_bp)
 
     # Register main routes
     from app import routes
