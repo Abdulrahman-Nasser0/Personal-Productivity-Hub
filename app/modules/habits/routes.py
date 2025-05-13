@@ -69,8 +69,16 @@ def complete(habit_id):
 @habits_bp.route('/calendar')
 def calendar():
     """Display a calendar of habit completion history"""
-    habits = Habit.query.all()
-    
+    user_email = session.get('email')  # Get the logged-in user's email
+    if user_email:
+        user = User.query.filter_by(email=user_email).first()
+        if user:
+            habits = Habit.query.filter_by(user_id=user.id).all()  # Filter habits by user_id
+        else:
+            habits = []  # No user found
+    else:
+        habits = []  # No email in session
+
     # Generate last 7 days for the calendar
     today = datetime.utcnow().date()
     days = [(today - timedelta(days=i)) for i in range(6, -1, -1)]

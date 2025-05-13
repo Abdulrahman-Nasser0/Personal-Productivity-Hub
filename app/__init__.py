@@ -18,9 +18,11 @@ def create_app():
     # Register blueprints
     from app.modules.habits import habits_bp
     from app.modules.todos import todos_bp
+    from app.modules.notes import notes_bp
     
     app.register_blueprint(habits_bp)
     app.register_blueprint(todos_bp)
+    app.register_blueprint(notes_bp)
 
     # Register main routes
     from app import routes

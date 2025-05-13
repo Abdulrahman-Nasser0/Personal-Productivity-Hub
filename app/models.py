@@ -8,6 +8,7 @@ class User(db.Model):
     password = db.Column(db.String(200), nullable=False)
     habits = db.relationship('Habit', backref='user', lazy=True)  # One-to-many relationship
     tasks = db.relationship('Task', backref='user', lazy=True)
+    notes = db.relationship('Note', backref='user', lazy=True)
     def __repr__(self):
         return f'<User {self.email}>'
 
@@ -43,3 +44,14 @@ class Task(db.Model):
 
     def __repr__(self):
         return f'<Task {self.title}>'
+
+class Note(db.Model):
+    __tablename__ = 'notes'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Link to User
+
+    def __repr__(self):
+        return f'<Note {self.title}>'
