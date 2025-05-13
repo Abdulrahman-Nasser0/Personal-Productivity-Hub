@@ -7,18 +7,16 @@ habits_bp = Blueprint('habits', __name__, url_prefix='/habits')
 
 @habits_bp.route('/')
 def index():
-    # Display habits for the logged-in user
     user_email = session.get('email')
     if user_email:
         user = User.query.filter_by(email=user_email).first()
         if user:
             habits = Habit.query.filter_by(user_id=user.id).all()
         else:
-            habits = []  # No user found
+            habits = []  
     else:
-        habits = []  # No email in session
+        return redirect(url_for('login'))  
     
-    # Check if each habit is completed today
     today = datetime.utcnow().date()
     for habit in habits:
         completion = Completion.query.filter_by(
@@ -31,13 +29,12 @@ def index():
 
 @habits_bp.route('/create', methods=['POST'])
 def create():
-    # Create a new habit
     name = request.form.get('name')
-    user_email = session.get('email')  # Get the logged-in user's email
+    user_email = session.get('email') 
     if name and user_email:
         user = User.query.filter_by(email=user_email).first()
         if user:
-            habit = Habit(name=name, user_id=user.id)  # Link habit to user
+            habit = Habit(name=name, user_id=user.id)  
             db.session.add(habit)
             db.session.commit()
             flash('Habit created successfully!', 'success')
@@ -53,7 +50,7 @@ def complete(habit_id):
     habit = Habit.query.get_or_404(habit_id)
     today = datetime.utcnow().date()
     
-    # Check if already completed today
+   
     existing_completion = Completion.query.filter_by(
         habit_id=habit_id, 
         completion_date=today
@@ -69,21 +66,19 @@ def complete(habit_id):
 @habits_bp.route('/calendar')
 def calendar():
     """Display a calendar of habit completion history"""
-    user_email = session.get('email')  # Get the logged-in user's email
+    user_email = session.get('email')  
     if user_email:
         user = User.query.filter_by(email=user_email).first()
         if user:
-            habits = Habit.query.filter_by(user_id=user.id).all()  # Filter habits by user_id
+            habits = Habit.query.filter_by(user_id=user.id).all() 
         else:
-            habits = []  # No user found
+            habits = []  
     else:
-        habits = []  # No email in session
+        habits = []  
 
-    # Generate last 7 days for the calendar
     today = datetime.utcnow().date()
     days = [(today - timedelta(days=i)) for i in range(6, -1, -1)]
     
-    # Get completion dates for each habit
     for habit in habits:
         completions = Completion.query.filter(
             Completion.habit_id == habit.id,

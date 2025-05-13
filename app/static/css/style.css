@@ -1,5 +1,196 @@
+/* Base Styles */
 body {
-    min-height: 80vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    background-color: #121212; /* Primary dark background */
+    color: #e0e0e0; /* Primary light text */
+    font-family: 'Roboto', sans-serif;
+}
+
+a {
+    color: #bb86fc; /* Accent purple */
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff79c6; /* Accent pink */
+}
+
+/* Footer */
+footer {
+    margin-top: auto;
+    background-color: #1e1e1e; /* Slightly lighter footer background */
+    color: #e0e0e0;
+}
+
+/* Navbar */
+.navbar {
+    background-color: #1e1e1e;
+}
+
+.navbar-brand, .nav-link {
+    color: #e0e0e0 !important;
+}
+
+.nav-link.active {
+    color: #bb86fc !important;
+}
+
+.navbar-toggler-icon {
+    background-color: #e0e0e0;
+}
+
+/* Cards */
+.card {
+    background-color: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    color: #e0e0e0;
+}
+
+.card-title {
+    font-weight: bold;
+    color: #bb86fc;
+}
+
+.card-text {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #b0b0b0;
+}
+
+/* Buttons */
+.btn-primary {
+    background-color: #bb86fc;
+    border-color: #bb86fc;
+    color: #121212;
+}
+
+.btn-primary:hover {
+    background-color: #9b5de5;
+    border-color: #9b5de5;
+    color: #ffffff;
+}
+
+.btn-outline-primary {
+    border-color: #bb86fc;
+    color: #bb86fc;
+    background-color: transparent;
+}
+
+.btn-outline-primary:hover {
+    background-color: #bb86fc;
+    color: #121212;
+}
+
+.btn-outline-danger {
+    border-color: #ff5555;
+    color: #ff5555;
+    background-color: transparent;
+}
+
+.btn-outline-danger:hover {
+    background-color: #ff5555;
+    color: #121212;
+}
+
+/* Jumbotron */
+.jumbotron {
+    background-color: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    color: #e0e0e0;
+}
+
+/* Table */
+.table {
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+}
+
+.table thead th {
+    background-color: #2a2a2a;
+    color: #ffffff;
+}
+
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid #333333;
+}
+
+/* Alerts */
+.alert {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444444;
+}
+/* General Input Fields */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+    background-color: #1e1e1e !important;
+    color: #cccccc; /* Slightly dimmer text */
+    border: 1px solid #333333;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+    width: 100%;
+    caret-color: #bb86fc; /* Custom caret color */
+}
+
+
+/* Placeholder Text */
+input::placeholder,
+textarea::placeholder {
+    color: #888888;
+}
+
+/* Focus State */
+input:focus,
+textarea:focus,
+select:focus {
+    border-color: #bb86fc;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
+    background-color: #2a2a2a !important;
+    color: white !important;
+}
+
+/* Disabled Inputs */
+input:disabled,
+textarea:disabled,
+select:disabled {
+    background-color: #2a2a2a !important;
+    color: #777777;
+    cursor: not-allowed;
+}
+
+/* Textarea Resizing */
+textarea {
+    resize: vertical;
+}
+
+/* Optional Checkbox/Radio Styling */
+input[type="checkbox"],
+input[type="radio"] {
+    accent-color: #bb86fc;
+}
+
+/* Input Groups (if using Bootstrap) */
+.input-group-text {
+    background-color: #2a2a2a !important;
+    color: #e0e0e0;
+    border: 1px solid #333333;
+}
+.ul-item{
+    background-color: #2a2a2a !important;
+    color: white;
+    margin-bottom: 1rem;
+    border: none
 }

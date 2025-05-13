@@ -2,10 +2,10 @@
 
 {% block content %}
 <div class="container">
-    <h1>To-Do List</h1>
+    <h1 class="mb-4">To-Do List</h1>
     
     <div class="card mb-4">
-        <div class="card-header">
+        <div class="card-header bg-dark text-white">
             <h2>Create New Task</h2>
         </div>
         <div class="card-body">
@@ -20,27 +20,28 @@
     </div>
     
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-dark text-white">
             <h2>My Tasks</h2>
         </div>
         <div class="card-body">
             {% if tasks %}
-                <div class="tasks-list">
+                <ul class="list-group">
                     {% for task in tasks %}
-                        <div class="task-item animate__animated animate__fadeIn">
-                            <div class="form-check">
+                        <li class="list-group-item d-flex justify-content-between align-items-center ul-item">
+                            <div>
                                 <form action="{{ url_for('todos.complete', task_id=task.id) }}" method="post" class="d-inline">
-                                    <input class="form-check-input" type="checkbox" id="task-{{ task.id }}" 
-                                           {% if task.completed %}checked{% endif %} onChange="this.form.submit()">
-                                    <label class="form-check-label {% if task.completed %}text-decoration-line-through{% endif %}" 
-                                           for="task-{{ task.id }}">
-                                        {{ task.title }}
-                                    </label>
+                                    <button type="submit" class="btn btn-sm {% if task.completed %}btn-success{% else %}btn-outline-success{% endif %}">
+                                        {% if task.completed %}Completed{% else %}Mark Complete{% endif %}
+                                    </button>
                                 </form>
+                                <span class="ms-3">{{ task.title }}</span>
                             </div>
-                        </div>
+                            <form action="{{ url_for('todos.delete', task_id=task.id) }}" method="post" class="d-inline">
+                                <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                            </form>
+                        </li>
                     {% endfor %}
-                </div>
+                </ul>
             {% else %}
                 <p>You haven't created any tasks yet.</p>
             {% endif %}

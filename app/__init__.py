@@ -1,10 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate  # Import Flask-Migrate
+from flask_migrate import Migrate  
 import os
 
 db = SQLAlchemy()
-migrate = Migrate()  # Initialize Flask-Migrate
+migrate = Migrate()  
 
 def create_app():
     app = Flask(__name__)
@@ -15,7 +15,7 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)  
 
-    # Register blueprints
+    # register blueprints
     from app.modules.habits import habits_bp
     from app.modules.todos import todos_bp
     from app.modules.notes import notes_bp
@@ -24,7 +24,7 @@ def create_app():
     app.register_blueprint(todos_bp)
     app.register_blueprint(notes_bp)
 
-    # Register main routes
+    # register main routes
     from app import routes
     
     return app

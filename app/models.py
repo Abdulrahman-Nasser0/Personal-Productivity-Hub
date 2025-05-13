@@ -6,7 +6,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
-    habits = db.relationship('Habit', backref='user', lazy=True)  # One-to-many relationship
+    habits = db.relationship('Habit', backref='user', lazy=True)  
     tasks = db.relationship('Task', backref='user', lazy=True)
     notes = db.relationship('Note', backref='user', lazy=True)
     def __repr__(self):
@@ -18,7 +18,7 @@ class Habit(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Link to User
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
     completions = db.relationship('Completion', backref='habit', lazy=True, cascade="all, delete-orphan")
     
     def __repr__(self):
@@ -40,7 +40,7 @@ class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     completed = db.Column(db.Boolean, default=False, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Link to User
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
 
     def __repr__(self):
         return f'<Task {self.title}>'
@@ -51,7 +51,7 @@ class Note(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     content = db.Column(db.Text, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  # Link to User
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)  
 
     def __repr__(self):
         return f'<Note {self.title}>'

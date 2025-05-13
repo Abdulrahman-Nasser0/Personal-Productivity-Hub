@@ -1,6 +1,50 @@
-{% extends "base.html" %} {% block content %} 
-{% if email %}
-<h1>Hello, {{ email }}</h1>
-{% else %}
-<h1>Hello. <a href="{{ url_for('login') }}">Log in</a>?</h1>
-{% endif %} {% endblock %}
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <div class="jumbotron py-5  shadow-sm rounded">
+        {% if email %}
+            <h1 class="display-4">Welcome Back, {{ email }}!</h1>
+            <p class="lead">Manage your habits, notes, and to-do lists all in one place.</p>
+        {% else %}
+            <h1 class="display-4">Welcome to Personal Productivity Hub!</h1>
+            <p class="lead">Your all-in-one solution to stay organized and productive.</p>
+            <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg mt-3">Get Started</a>
+            <a href="{{ url_for('login') }}" class="btn btn-outline-secondary btn-lg mt-3">Log In</a>
+        {% endif %}
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-check-circle" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Habits</h5>
+                    <p class="card-text">Track and build your habits with ease.</p>
+                    <a href="{{ url_for('habits.index') }}" class="btn btn-outline-primary">View Habits</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-journal-text" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">Notes</h5>
+                    <p class="card-text">Keep all your notes organized in one place.</p>
+                    <a href="{{ url_for('notes.index') }}" class="btn btn-outline-primary">View Notes</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <i class="bi bi-list-task" style="font-size: 2rem;"></i>
+                    <h5 class="card-title mt-3">To-Do List</h5>
+                    <p class="card-text">Stay on top of your tasks and get things done.</p>
+                    <a href="{{ url_for('todos.index') }}" class="btn btn-outline-primary">View To-Do List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
