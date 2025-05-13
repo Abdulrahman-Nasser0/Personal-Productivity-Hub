@@ -2,14 +2,16 @@
 
 {% block content %}
 <div class="container">
-    <div class="card animate__animated animate__fadeIn">
-        <div class="card-header d-flex justify-content-between align-items-center">
-            <h1>{{ note.title }}</h1>
-            <a href="{{ url_for('notes.index') }}" class="btn btn-outline-primary">Back to Notes</a>
-        </div>
-        <div class="card-body">
-            <div class="note-content">
-                {{ note.content | nl2br }}
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card animate__animated animate__fadeIn">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h1 class="h4 mb-0">{{ note.title }}</h1>
+                    <a href="{{ url_for('notes.index') }}" class="btn btn-outline-primary btn-sm">Back to Notes</a>
+                </div>
+                <div class="card-body">
+                    <p class="note-content" style="white-space: pre-wrap;">{{ note.content }}</p>
+                </div>
             </div>
         </div>
     </div>

@@ -11,6 +11,9 @@ def register_routes(app):
     def index():
         return render_template("home.html", email=session.get("email"))
     
+    
+
+    
     @app.route('/signup', methods=['GET', 'POST'])
     def signup():
         if session.get('email') != None:
@@ -20,13 +23,11 @@ def register_routes(app):
             email = request.form['email']
             password = request.form['password']
 
-            # Check if the email already exists in the database
             existing_user = User.query.filter_by(email=email).first()
             if existing_user:
                 flash('Email is already registered. Please log in.', 'danger')
                 return redirect(url_for('login'))
 
-            # Save new user to the database
             user = User(email=email, password=password)
             db.session.add(user)
             db.session.commit()
@@ -45,7 +46,6 @@ def register_routes(app):
             email = request.form['email']
             password = request.form['password']
 
-            # Query user from the database
             user = User.query.filter_by(email=email).first()
             if user and user.password == password:
                 session['email'] = user.email

@@ -5,8 +5,8 @@
     <h1>Notes</h1>
     
     <div class="card mb-4">
-        <div class="card-header">
-            <h2>Create New Note</h2>
+        <div class="bg-dark card-header">
+            <h2 >Create New Note</h2>
         </div>
         <div class="card-body">
             <form action="{{ url_for('notes.create') }}" method="post">
@@ -18,29 +18,37 @@
                     <label for="content">Note Content</label>
                     <textarea class="form-control" id="content" name="content" rows="5" required></textarea>
                 </div>
-                <button type="submit" class="btn btn-primary">Create Note</button>
+                <button type="submit" class="btn btn-primary ">Create Note</button>
             </form>
         </div>
     </div>
     
     <div class="card">
-        <div class="card-header">
-            <h2>My Notes</h2>
+        <div class="card-header bg-dark text-white">
+            <h2 class="h4 mb-0">My Notes</h2>
         </div>
         <div class="card-body">
             {% if notes %}
-                <div class="notes-list">
+                <div class="row">
                     {% for note in notes %}
-                        <div class="note-item animate__animated animate__fadeIn">
-                            <a href="{{ url_for('notes.view', note_id=note.id) }}" class="note-link">
-                                <h3>{{ note.title }}</h3>
-                                <p class="note-preview">{{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}</p>
-                            </a>
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ note.title }}</h5>
+                                    <p class="card-text text-muted">
+                                        {{ note.content[:100] }}{% if note.content|length > 100 %}...{% endif %}
+                                    </p>
+                                    <a href="{{ url_for('notes.view', note_id=note.id) }}" class="btn btn-outline-primary btn-sm">View Note</a>
+                                    <form action="{{ url_for('notes.delete', note_id=note.id) }}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     {% endfor %}
                 </div>
             {% else %}
-                <p>You haven't created any notes yet.</p>
+                <p class="text-muted">You haven't created any notes yet.</p>
             {% endif %}
         </div>
     </div>
